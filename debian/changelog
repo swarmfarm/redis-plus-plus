@@ -1,0 +1,5 @@
+redis-plus-plus (1.2.3-1) focal; urgency=medium
+
+  * SwarmFarm packaging for redis-plus-plus
+
+ -- Andrew Lipscomb <andrew.lipscomb@swarmfarm.com>  Sun, 28 Sep 2014 14:08:37 -0700

@@ -23,6 +23,8 @@ if(NOT WIN32)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++${REDIS_PLUS_PLUS_CXX_STANDARD}")
 endif()
 
+include(GNUInstallDirs)
+
 set(REDIS_PLUS_PLUS_SOURCE_DIR src/sw/redis++)
 
 set(REDIS_PLUS_PLUS_SOURCES
@@ -60,7 +62,7 @@ else()
 endif()
 
 # hiredis dependency
-find_package(hiredis QUIET)
+find_package(hiredis REQUIRED)
 if(hiredis_FOUND)
     list(APPEND REDIS_PLUS_PLUS_HIREDIS_LIBS hiredis::hiredis)
 
@@ -168,12 +170,12 @@ endif()
 
 install(TARGETS ${REDIS_PLUS_PLUS_TARGETS}
         EXPORT redis++-targets
-        LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION lib
-        RUNTIME DESTINATION bin
-        INCLUDES DESTINATION include)
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-set(REDIS_PLUS_PLUS_CMAKE_DESTINATION share/cmake/redis++)
+set(REDIS_PLUS_PLUS_CMAKE_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/redis++)
 
 install(EXPORT redis++-targets
         FILE redis++-targets.cmake
@@ -183,7 +185,7 @@ install(EXPORT redis++-targets
 # Install headers.
 set(HEADER_PATH "sw/redis++")
 file(GLOB HEADERS "${REDIS_PLUS_PLUS_SOURCE_DIR}/*.h*" "${TLS_SUB_DIR}/*.h")
-install(FILES ${HEADERS} DESTINATION ${CMAKE_INSTALL_PREFIX}/include/${HEADER_PATH})
+install(FILES ${HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${HEADER_PATH})
 
 include(CMakePackageConfigHelpers)
 
@@ -207,4 +209,4 @@ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/redis++.pc.in"
         "${CMAKE_CURRENT_BINARY_DIR}/cmake/redis++.pc" @ONLY)
 
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/cmake/redis++.pc"
-        DESTINATION "lib/pkgconfig")
+        DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig")

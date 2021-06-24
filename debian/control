@@ -1,0 +1,36 @@
+Source: redis-plus-plus
+Priority: optional
+Maintainer: Andrew Lipscomb <andrew.lipscomb@swarmfarm.com>
+Build-Depends:
+ debhelper-compat (= 12),
+ libssl-dev,
+ libuv1-dev,
+ libhiredis-dev (>= 1.0.0-3),
+ procps <!nocheck>,
+ redis-server [linux-any kfreebsd-any] <!nocheck>,
+Standards-Version: 4.5.1
+Section: libs
+Rules-Requires-Root: no
+
+Package: libredis++1
+Architecture: any
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
+ libuv1,
+ libhiredis1.0.0 (>= 1.0.0-3),
+Pre-Depends:
+ ${misc:Pre-Depends},
+Multi-Arch: same
+Description: Redis C++ library
+
+Package: libredis++-dev
+Section: libdevel
+Architecture: any
+Depends:
+ libredis++1 (= ${binary:Version}),
+ libuv1-dev,
+ libhiredis-dev (>= 1.0.0-3),
+ ${misc:Depends},
+Multi-Arch: same
+Description: Redis C++ library development files
